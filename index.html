@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#060608">
 <title>Aditya Pratama — Web Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -22,7 +23,7 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
   body {
     background: var(--bg);
@@ -30,7 +31,16 @@
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     overflow-x: hidden;
-    cursor: none;
+  }
+
+  /* Only hide cursor on non-touch (desktop) */
+  @media (hover: hover) and (pointer: fine) {
+    body { cursor: none; }
+    #cursor, #cursor-ring { display: block; }
+  }
+  @media (hover: none), (pointer: coarse) {
+    body { cursor: auto; }
+    #cursor, #cursor-ring { display: none !important; }
   }
 
   /* ── CURSOR ── */
@@ -40,6 +50,7 @@
     pointer-events: none; z-index: 9999;
     transform: translate(-50%,-50%);
     transition: transform .1s;
+    display: none;
   }
   #cursor-ring {
     position: fixed; width: 40px; height: 40px;
@@ -47,6 +58,7 @@
     pointer-events: none; z-index: 9998;
     transform: translate(-50%,-50%);
     transition: transform .12s ease, width .2s, height .2s, opacity .2s;
+    display: none;
   }
   body:has(a:hover) #cursor-ring,
   body:has(button:hover) #cursor-ring {
@@ -69,11 +81,11 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 28px 60px;
     background: linear-gradient(to bottom, rgba(6,6,8,.9) 0%, transparent 100%);
-    backdrop-filter: blur(0px);
     transition: all .4s;
   }
   nav.scrolled {
     background: rgba(6,6,8,.92);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     padding: 18px 60px;
@@ -100,15 +112,45 @@
   }
   .nav-cta:hover { background: var(--gold); color: var(--bg); }
 
+  /* Mobile hamburger */
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .nav-hamburger span {
+    display: block; width: 24px; height: 1.5px; background: var(--text);
+    transition: all .3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 400;
+    background: rgba(6,6,8,.97);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700;
+    color: var(--text); text-decoration: none; letter-spacing: -.02em;
+    transition: color .3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+
   /* ── HERO ── */
   #hero {
     min-height: 100vh;
+    min-height: 100dvh;
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
     padding: 120px 60px 80px;
     position: relative;
     overflow: hidden;
+    gap: 60px;
   }
   .hero-bg-grid {
     position: absolute; inset: 0;
@@ -117,6 +159,7 @@
       linear-gradient(90deg, rgba(201,168,76,.04) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
   }
   .hero-glow {
     position: absolute; width: 600px; height: 600px;
@@ -178,6 +221,7 @@
     padding: 14px 30px; text-decoration: none; font-weight: 500;
     transition: all .3s; border: 1px solid var(--gold);
     clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    -webkit-tap-highlight-color: transparent;
   }
   .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(201,168,76,.3); }
   .btn-secondary {
@@ -187,6 +231,7 @@
     letter-spacing: .08em; text-transform: uppercase;
     padding: 14px 30px; text-decoration: none; font-weight: 400;
     transition: all .3s;
+    -webkit-tap-highlight-color: transparent;
   }
   .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
 
@@ -194,6 +239,7 @@
     display: flex; gap: 40px; margin-top: 64px;
     padding-top: 40px; border-top: 1px solid var(--border);
     opacity: 0; animation: fadeUp .8s .9s forwards;
+    flex-wrap: wrap;
   }
   .stat-num {
     font-family: 'Syne', sans-serif; font-size: 2.2rem;
@@ -202,50 +248,96 @@
   }
   .stat-label { font-size: .75rem; color: var(--muted); margin-top: 4px; letter-spacing: .05em; text-transform: uppercase; }
 
-  /* HERO RIGHT - PHOTO */
+  /* ── HERO RIGHT — AUTO SLIDESHOW ── */
   .hero-right {
     position: relative; z-index: 2;
     display: flex; justify-content: flex-end;
     opacity: 0; animation: fadeIn 1s .4s forwards;
   }
-  .photo-container {
+
+  .photo-slideshow {
     position: relative; width: 420px; height: 520px;
   }
-  .photo-frame {
-    position: absolute; inset: 0;
-    border: 1px solid rgba(201,168,76,.25);
+
+  /* Decorative frame */
+  .photo-slideshow::after {
+    content: '';
+    position: absolute;
     top: 20px; left: 20px; right: -20px; bottom: -20px;
-    z-index: 0;
+    border: 1px solid rgba(201,168,76,.25);
+    z-index: 0; pointer-events: none;
   }
-  .photo-frame::before {
-    content: ''; position: absolute; top: -1px; left: -1px;
-    width: 40px; height: 40px;
+
+  /* Corner accents */
+  .photo-corner-tl, .photo-corner-br {
+    position: absolute; z-index: 4; pointer-events: none;
+  }
+  .photo-corner-tl {
+    top: 0; left: 0; width: 40px; height: 40px;
     border-top: 2px solid var(--gold); border-left: 2px solid var(--gold);
   }
-  .photo-frame::after {
-    content: ''; position: absolute; bottom: -1px; right: -1px;
-    width: 40px; height: 40px;
+  .photo-corner-br {
+    bottom: 0; right: 0; width: 40px; height: 40px;
     border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold);
   }
-  .photo-img {
-    position: relative; z-index: 2; width: 100%; height: 100%;
+
+  .photo-slide {
+    position: absolute; inset: 0; z-index: 2;
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
+  }
+  .photo-slide.active { opacity: 1; }
+
+  .photo-slide img {
+    width: 100%; height: 100%;
     object-fit: cover; object-position: top;
     filter: grayscale(20%) contrast(1.05);
     display: block;
   }
-  .photo-badge {
-    position: absolute; bottom: -10px; left: -30px; z-index: 3;
-    background: var(--gold); color: var(--bg);
-    padding: 14px 20px; font-family: 'DM Mono', monospace;
-    font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
-    font-weight: 500;
+
+  /* Ken Burns per slide */
+  .photo-slide.active img {
+    animation: kenBurns 8s ease-in-out forwards;
   }
-  .photo-dots {
+  @keyframes kenBurns {
+    from { transform: scale(1) translate(0,0); }
+    to   { transform: scale(1.06) translate(-1%, 1%); }
+  }
+
+  /* Slide overlay — cinematic gold vignette */
+  .photo-slide::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(6,6,8,.55) 100%),
+                linear-gradient(270deg, transparent 80%, rgba(6,6,8,.3) 100%);
+    z-index: 3;
+  }
+
+  .photo-dots-deco {
     position: absolute; top: -20px; right: -40px; z-index: 0;
     width: 100px; height: 100px;
     background-image: radial-gradient(circle, rgba(201,168,76,.4) 1px, transparent 1px);
     background-size: 12px 12px;
   }
+
+  .photo-badge {
+    position: absolute; bottom: -10px; left: -30px; z-index: 5;
+    background: var(--gold); color: var(--bg);
+    padding: 14px 20px; font-family: 'DM Mono', monospace;
+    font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Slide progress dots */
+  .slide-progress {
+    position: absolute; bottom: 20px; right: 16px; z-index: 6;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .slide-dot {
+    width: 3px; height: 20px; background: rgba(201,168,76,.3);
+    transition: background .4s, height .4s;
+  }
+  .slide-dot.active { background: var(--gold); height: 32px; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(30px); }
@@ -264,7 +356,7 @@
   }
   .marquee-track {
     display: flex; gap: 0; animation: marquee 20s linear infinite;
-    white-space: nowrap;
+    white-space: nowrap; will-change: transform;
   }
   .marquee-item {
     display: inline-flex; align-items: center; gap: 20px;
@@ -291,39 +383,102 @@
   }
   .section-title em { color: var(--gold); font-style: normal; }
 
-  /* ── ABOUT ── */
+  /* ── ABOUT — REDESIGNED (no photo) ── */
   #about {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 100px; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 140px 60px;
   }
-  .about-img-wrap {
-    position: relative;
+
+  /* Massive background number */
+  .about-bg-num {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'Syne', sans-serif; font-size: clamp(180px, 25vw, 320px);
+    font-weight: 800; color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,.06);
+    text-stroke: 1px rgba(201,168,76,.06);
+    pointer-events: none; user-select: none; white-space: nowrap;
+    line-height: 1;
   }
-  .about-img {
-    width: 100%; aspect-ratio: 4/5; object-fit: cover;
-    object-position: center top;
-    filter: grayscale(15%) contrast(1.05);
-    display: block;
+
+  .about-inner {
+    position: relative; z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
   }
-  .about-img-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(6,6,8,.7) 0%, transparent 50%);
+
+  .about-left {}
+
+  .about-statement {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.025em;
+    margin-top: 24px;
+    margin-bottom: 48px;
   }
-  .about-img-border {
-    position: absolute; inset: -12px;
-    border: 1px solid rgba(201,168,76,.2); pointer-events: none;
+  .about-statement em { color: var(--gold); font-style: normal; }
+
+  .about-philosophy {
+    display: flex; flex-direction: column; gap: 24px;
   }
-  .about-img-border::before {
-    content:''; position:absolute; bottom:-1px; right:-1px;
-    width:60px; height:60px;
-    border-bottom:2px solid var(--gold); border-right:2px solid var(--gold);
+  .philosophy-item {
+    display: flex; gap: 20px; align-items: flex-start;
+    padding: 24px; border: 1px solid var(--border);
+    background: var(--surface);
+    transition: border-color .3s, background .3s;
   }
+  .philosophy-item:hover {
+    border-color: rgba(201,168,76,.3);
+    background: rgba(201,168,76,.04);
+  }
+  .philosophy-num {
+    font-family: 'DM Mono', monospace; font-size: .65rem;
+    color: var(--gold); letter-spacing: .1em;
+    flex-shrink: 0; padding-top: 3px;
+  }
+  .philosophy-text h4 {
+    font-family: 'Syne', sans-serif; font-size: .95rem;
+    font-weight: 600; margin-bottom: 6px; letter-spacing: -.01em;
+  }
+  .philosophy-text p {
+    font-size: .82rem; color: var(--muted); line-height: 1.7;
+  }
+
   .about-right {}
-  .about-text { font-size: .95rem; line-height: 1.85; color: var(--muted); margin-bottom: 40px; }
+  .about-text { font-size: .95rem; line-height: 1.85; color: var(--muted); margin-bottom: 32px; }
   .about-text strong { color: var(--text); font-weight: 400; }
 
+  /* Profile card - modern no-photo version */
+  .about-profile-card {
+    border: 1px solid var(--border);
+    padding: 32px;
+    background: var(--surface);
+    position: relative; overflow: hidden;
+    margin-bottom: 40px;
+  }
+  .about-profile-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, var(--gold), var(--gold2), transparent);
+  }
+  .profile-line {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .82rem;
+  }
+  .profile-line:last-child { border-bottom: none; }
+  .profile-key {
+    font-family: 'DM Mono', monospace; font-size: .65rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--gold);
+  }
+  .profile-val { color: var(--text); font-weight: 400; }
+
   .skills-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 40px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 32px;
   }
   .skill-chip {
     display: flex; align-items: center; gap: 10px;
@@ -351,7 +506,6 @@
     border: 1px solid var(--border);
     background: var(--surface);
     transition: all .4s cubic-bezier(.16,1,.3,1);
-    cursor: none;
     transform: translateY(0);
   }
   .project-card:hover {
@@ -444,7 +598,7 @@
   }
   .service-desc { font-size: .85rem; color: var(--muted); line-height: 1.7; }
 
-  /* ── TESTIMONIAL / PROCESS ── */
+  /* ── PROCESS ── */
   #process { background: var(--bg2); }
   .process-steps {
     display: grid; grid-template-columns: repeat(4, 1fr);
@@ -487,6 +641,7 @@
     text-decoration: none; color: var(--text);
     transition: all .3s;
     font-size: .88rem;
+    -webkit-tap-highlight-color: transparent;
   }
   .contact-link:hover { border-color: var(--gold); background: var(--gold-glow); }
   .contact-link-icon {
@@ -512,6 +667,9 @@
     font-family: 'DM Sans', sans-serif; font-size: .88rem;
     outline: none; transition: border-color .3s, background .3s;
     resize: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    width: 100%;
   }
   .form-input:focus, .form-textarea:focus {
     border-color: var(--gold); background: rgba(201,168,76,.04);
@@ -523,7 +681,8 @@
     color: var(--gold); padding: 16px 36px;
     font-family: 'DM Mono', monospace; font-size: .78rem;
     letter-spacing: .1em; text-transform: uppercase;
-    cursor: none; transition: all .3s; align-self: flex-start;
+    cursor: pointer; transition: all .3s; align-self: flex-start;
+    -webkit-tap-highlight-color: transparent;
   }
   .form-submit:hover { background: var(--gold); color: var(--bg); }
 
@@ -552,25 +711,6 @@
   .reveal-delay-3 { transition-delay: .3s; }
   .reveal-delay-4 { transition-delay: .4s; }
 
-  /* ── MOBILE ── */
-  @media (max-width: 900px) {
-    nav { padding: 24px 24px; }
-    nav.scrolled { padding: 16px 24px; }
-    .nav-links { display: none; }
-    #hero { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 60px; }
-    .hero-right { justify-content: center; }
-    .photo-container { width: 100%; max-width: 340px; height: 420px; }
-    #about { grid-template-columns: 1fr; gap: 50px; padding: 80px 24px; }
-    section { padding: 80px 24px; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .project-card:first-child, .project-card:nth-child(4) { grid-column: span 1; }
-    .services-grid { grid-template-columns: 1fr; }
-    .process-steps { grid-template-columns: 1fr 1fr; }
-    #contact { grid-template-columns: 1fr; gap: 60px; padding: 80px 24px; }
-    footer { padding: 30px 24px; }
-    .hero-stats { gap: 24px; }
-  }
-
   /* Scrollbar */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -585,6 +725,75 @@
     background: linear-gradient(to right, transparent, var(--gold), var(--gold2), var(--gold), transparent);
     z-index: 999;
   }
+
+  /* ── RESPONSIVE — TABLET ── */
+  @media (max-width: 1100px) {
+    #hero { grid-template-columns: 1fr; padding: 120px 40px 80px; }
+    .hero-right { justify-content: flex-start; }
+    .photo-slideshow { width: 100%; max-width: 400px; }
+    .about-inner { grid-template-columns: 1fr; gap: 60px; }
+    .about-bg-num { font-size: clamp(100px, 18vw, 200px); }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .project-card:first-child, .project-card:nth-child(4) { grid-column: span 2; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ── RESPONSIVE — MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 20px 20px; }
+    nav.scrolled { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .nav-cta { display: none; }
+
+    #hero {
+      grid-template-columns: 1fr;
+      padding: 100px 20px 60px;
+      gap: 48px;
+      min-height: 100svh;
+    }
+    .hero-right { justify-content: center; }
+    .photo-slideshow { width: 100%; max-width: 100%; height: 380px; }
+    .photo-badge { left: 0; bottom: -10px; font-size: .62rem; }
+    .photo-slideshow::after { display: none; }
+    .photo-dots-deco { display: none; }
+
+    #about { padding: 80px 20px; }
+    .about-inner { grid-template-columns: 1fr; gap: 48px; }
+    .about-bg-num { font-size: 80px; top: 30px; transform: translate(-50%, 0); }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+
+    section { padding: 80px 20px; }
+
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card:first-child, .project-card:nth-child(4) { grid-column: span 1; }
+
+    .services-grid { grid-template-columns: 1fr; }
+
+    .process-steps { grid-template-columns: 1fr; }
+    .process-steps::before { display: none; }
+
+    #contact { grid-template-columns: 1fr; gap: 48px; padding: 80px 20px; }
+
+    footer { padding: 28px 20px; flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+
+    .hero-stats { gap: 20px; }
+    .hero-stats > div { min-width: calc(33% - 20px); }
+    .stat-num { font-size: 1.8rem; }
+    .stat-label { font-size: .65rem; }
+
+    .service-item { padding: 32px 24px; }
+
+    /* Disable clip-path on mobile (can cause issues) */
+    .btn-primary { clip-path: none; border-radius: 0; }
+  }
+
+  @media (max-width: 400px) {
+    .hero-name { font-size: 2.6rem; }
+    .hero-stats { flex-direction: row; flex-wrap: wrap; }
+    .hero-stats > div { flex: 1 1 calc(33% - 10px); }
+  }
 </style>
 </head>
 <body>
@@ -592,6 +801,15 @@
 <div class="top-accent"></div>
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <a href="https://wa.me/6208956357546710" target="_blank" style="color:var(--gold);">Hire Me</a>
+</div>
 
 <!-- NAV -->
 <nav id="navbar">
@@ -602,7 +820,10 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="https://wa.me/6289563575467" target="_blank" class="nav-cta">Hire Me</a>
+  <a href="https://wa.me/62089563575467" target="_blank" class="nav-cta">Hire Me</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -627,7 +848,7 @@
     <div class="hero-stats">
       <div>
         <div class="stat-num" data-count="6">0</div>
-        <div class="stat-label">Projects Completed</div>
+        <div class="stat-label">Projects Done</div>
       </div>
       <div>
         <div class="stat-num" data-count="3">0</div>
@@ -635,16 +856,36 @@
       </div>
       <div>
         <div class="stat-num" data-count="100">0</div>
-        <div class="stat-label">Client Satisfaction %</div>
+        <div class="stat-label">Satisfaction %</div>
       </div>
     </div>
   </div>
 
+  <!-- AUTO SLIDESHOW HERO PHOTO -->
   <div class="hero-right">
-    <div class="photo-container">
-      <div class="photo-dots"></div>
-      <img src="/mnt/user-data/uploads/1775745757148_image.png" alt="Aditya Pratama" class="photo-img">
-      <div class="photo-frame"></div>
+    <div class="photo-slideshow" id="photoSlideshow">
+      <div class="photo-dots-deco"></div>
+
+      <!-- Slide 1 — main portrait -->
+      <div class="photo-slide active">
+        <img src="/mnt/user-data/uploads/1775745757148_image.png" alt="Aditya Pratama — Web Designer" loading="eager">
+      </div>
+      <!-- Slide 2 — same photo, different crop effect via Ken Burns -->
+      <div class="photo-slide">
+        <img src="/mnt/user-data/uploads/1775745763318_image.png" alt="Aditya Pratama" loading="lazy">
+      </div>
+      <!-- Slide 3 — loops back to portrait -->
+      <div class="photo-slide">
+        <img src="/mnt/user-data/uploads/1775745757148_image.png" alt="Aditya Pratama" loading="lazy">
+      </div>
+
+      <!-- Corner accents -->
+      <div class="photo-corner-tl"></div>
+      <div class="photo-corner-br"></div>
+
+      <!-- Slide progress indicators -->
+      <div class="slide-progress" id="slideProgress"></div>
+
       <div class="photo-badge">Web Designer ✦</div>
     </div>
   </div>
@@ -660,6 +901,7 @@
     <div class="marquee-item"><span>✦</span> Frontend Developer</div>
     <div class="marquee-item"><span>✦</span> Brand Identity</div>
     <div class="marquee-item"><span>✦</span> Web Design</div>
+    <!-- duplicate for seamless loop -->
     <div class="marquee-item"><span>✦</span> UI / UX Design</div>
     <div class="marquee-item"><span>✦</span> Landing Page</div>
     <div class="marquee-item"><span>✦</span> Web Development</div>
@@ -670,33 +912,88 @@
   </div>
 </div>
 
-<!-- ABOUT -->
+<!-- ABOUT — REDESIGNED -->
 <section id="about">
-  <div class="about-img-wrap reveal">
-    <img src="/mnt/user-data/uploads/1775745763318_image.png" alt="Aditya" class="about-img">
-    <div class="about-img-overlay"></div>
-    <div class="about-img-border"></div>
-  </div>
-  <div class="about-right">
-    <div class="reveal">
-      <div class="section-label">About Me</div>
-      <h2 class="section-title">Design is how it <em>works</em>, not just looks.</h2>
+  <div class="about-bg-num">ADITYA</div>
+
+  <div class="about-inner">
+    <!-- Left: headline + philosophy -->
+    <div class="about-left">
+      <div class="reveal">
+        <div class="section-label">About Me</div>
+        <h2 class="about-statement">
+          Design that <em>moves</em> people.<br>
+          Code that <em>performs</em>.
+        </h2>
+      </div>
+
+      <div class="about-philosophy">
+        <div class="philosophy-item reveal">
+          <span class="philosophy-num">01</span>
+          <div class="philosophy-text">
+            <h4>Aesthetic with Purpose</h4>
+            <p>Every pixel serves a reason. I merge visual elegance with conversion-focused design thinking — beauty that works.</p>
+          </div>
+        </div>
+        <div class="philosophy-item reveal reveal-delay-1">
+          <span class="philosophy-num">02</span>
+          <div class="philosophy-text">
+            <h4>Detail-Oriented Craft</h4>
+            <p>From micro-interactions to performance budgets, I obsess over the details that elevate good to extraordinary.</p>
+          </div>
+        </div>
+        <div class="philosophy-item reveal reveal-delay-2">
+          <span class="philosophy-num">03</span>
+          <div class="philosophy-text">
+            <h4>Future-Ready Technology</h4>
+            <p>Built on modern stacks — React, Next.js, Tailwind — your site is fast, scalable, and ready for tomorrow.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <p class="about-text reveal reveal-delay-1">
-      Hei, saya <strong>Aditya Pratama</strong> — seorang Web Designer & Frontend Developer yang passionate dalam menciptakan pengalaman digital yang berkesan. Saya percaya bahwa desain yang baik bukan hanya soal estetika, tapi tentang bagaimana sebuah website bisa berbicara kepada penggunanya.
-    </p>
-    <p class="about-text reveal reveal-delay-2">
-      Dengan pendekatan yang <strong>detail-oriented</strong> dan selalu mengikuti tren desain terkini, saya menghasilkan website yang tidak hanya indah secara visual, tapi juga <strong>fungsional, cepat, dan responsif</strong> di semua perangkat.
-    </p>
-    <div class="skills-grid reveal reveal-delay-3">
-      <div class="skill-chip">HTML / CSS / JS</div>
-      <div class="skill-chip">UI / UX Design</div>
-      <div class="skill-chip">Figma & Prototyping</div>
-      <div class="skill-chip">Next.js / React</div>
-      <div class="skill-chip">Tailwind CSS</div>
-      <div class="skill-chip">Responsive Design</div>
-      <div class="skill-chip">Landing Pages</div>
-      <div class="skill-chip">Web Optimization</div>
+
+    <!-- Right: bio + profile card + skills -->
+    <div class="about-right">
+      <p class="about-text reveal">
+        Hey, I'm <strong>Aditya Pratama</strong> — a Web Designer &amp; Frontend Developer passionate about crafting memorable digital experiences. I believe great design isn't just about aesthetics — it's about how a website communicates with its audience.
+      </p>
+      <p class="about-text reveal reveal-delay-1">
+        With a <strong>detail-oriented approach</strong> and a constant pulse on the latest design trends, I deliver websites that are not only visually stunning but also <strong>fast, functional, and fully responsive</strong> across all devices.
+      </p>
+
+      <div class="about-profile-card reveal reveal-delay-2">
+        <div class="profile-line">
+          <span class="profile-key">Based in</span>
+          <span class="profile-val">Indonesia 🇮🇩</span>
+        </div>
+        <div class="profile-line">
+          <span class="profile-key">Experience</span>
+          <span class="profile-val">3+ Years</span>
+        </div>
+        <div class="profile-line">
+          <span class="profile-key">Specialty</span>
+          <span class="profile-val">UI/UX · Frontend</span>
+        </div>
+        <div class="profile-line">
+          <span class="profile-key">Status</span>
+          <span class="profile-val" style="color:var(--gold);">● Available for Projects</span>
+        </div>
+        <div class="profile-line">
+          <span class="profile-key">WhatsApp</span>
+          <span class="profile-val">+62 895-635-754-671</span>
+        </div>
+      </div>
+
+      <div class="skills-grid reveal reveal-delay-3">
+        <div class="skill-chip">HTML / CSS / JS</div>
+        <div class="skill-chip">UI / UX Design</div>
+        <div class="skill-chip">Figma & Prototyping</div>
+        <div class="skill-chip">Next.js / React</div>
+        <div class="skill-chip">Tailwind CSS</div>
+        <div class="skill-chip">Responsive Design</div>
+        <div class="skill-chip">Landing Pages</div>
+        <div class="skill-chip">Web Optimization</div>
+      </div>
     </div>
   </div>
 </section>
@@ -722,7 +1019,7 @@
       </div>
       <div class="project-info">
         <h3 class="project-name">Toko Material</h3>
-        <p class="project-desc">Platform e-commerce material bangunan dengan tampilan modern dan user experience yang intuitif untuk kemudahan transaksi.</p>
+        <p class="project-desc">E-commerce platform for building materials — modern UI with intuitive user experience designed for seamless transactions.</p>
         <div class="project-tags">
           <span class="tag">E-Commerce</span>
           <span class="tag">Web Design</span>
@@ -741,7 +1038,7 @@
       </div>
       <div class="project-info">
         <h3 class="project-name">Klinik Hukum</h3>
-        <p class="project-desc">Website profesional firma hukum yang membangun kepercayaan klien dengan desain bersih, elegan, dan informatif.</p>
+        <p class="project-desc">Professional law firm website built to establish client trust with clean, elegant, and informative design.</p>
         <div class="project-tags">
           <span class="tag">Legal</span>
           <span class="tag">Corporate</span>
@@ -760,7 +1057,7 @@
       </div>
       <div class="project-info">
         <h3 class="project-name">Pusat AKI</h3>
-        <p class="project-desc">Website toko otomotif dengan katalog produk yang terstruktur rapi dan tampilan yang menarik bagi pengunjung.</p>
+        <p class="project-desc">Automotive parts store with a neatly structured product catalog and visually compelling layout for visitors.</p>
         <div class="project-tags">
           <span class="tag">Automotive</span>
           <span class="tag">Catalog</span>
@@ -779,7 +1076,7 @@
       </div>
       <div class="project-info">
         <h3 class="project-name">Apply MNC Bank</h3>
-        <p class="project-desc">Landing page aplikasi perbankan yang dirancang untuk meningkatkan konversi dengan desain yang profesional dan terpercaya.</p>
+        <p class="project-desc">Banking application landing page crafted to maximize conversions with a professional and trustworthy design.</p>
         <div class="project-tags">
           <span class="tag">Banking</span>
           <span class="tag">Landing Page</span>
@@ -798,7 +1095,7 @@
       </div>
       <div class="project-info">
         <h3 class="project-name">Sentra Otomotif</h3>
-        <p class="project-desc">Platform otomotif komprehensif dengan tampilan premium yang mencerminkan kualitas dan kepercayaan dalam industri kendaraan.</p>
+        <p class="project-desc">Comprehensive automotive platform with a premium look reflecting quality and trust within the vehicle industry.</p>
         <div class="project-tags">
           <span class="tag">Automotive</span>
           <span class="tag">Premium</span>
@@ -817,7 +1114,7 @@
       </div>
       <div class="project-info">
         <h3 class="project-name">Bengkel Mobil</h3>
-        <p class="project-desc">Website bengkel modern yang memudahkan pelanggan menemukan layanan, jadwal servis, dan informasi bengkel secara online.</p>
+        <p class="project-desc">Modern auto-workshop website that helps customers find services, book appointments, and get info effortlessly online.</p>
         <div class="project-tags">
           <span class="tag">Automotive</span>
           <span class="tag">Service</span>
@@ -841,37 +1138,37 @@
         <span class="service-num">01</span>
         <span class="service-icon">◈</span>
         <h3 class="service-title">UI / UX Design</h3>
-        <p class="service-desc">Merancang antarmuka yang indah sekaligus fungsional. Dari wireframe hingga prototype, setiap pixel dipikirkan untuk pengalaman pengguna terbaik.</p>
+        <p class="service-desc">Designing interfaces that are beautiful and functional. From wireframes to prototypes, every pixel is crafted for the best user experience.</p>
       </div>
       <div class="service-item">
         <span class="service-num">02</span>
         <span class="service-icon">◇</span>
         <h3 class="service-title">Web Development</h3>
-        <p class="service-desc">Membangun website dengan kode yang bersih, performa tinggi, dan responsif di semua perangkat. Teknologi modern untuk hasil yang optimal.</p>
+        <p class="service-desc">Building websites with clean code, high performance, and full responsiveness across all devices using modern technology.</p>
       </div>
       <div class="service-item">
         <span class="service-num">03</span>
         <span class="service-icon">◉</span>
         <h3 class="service-title">Landing Page</h3>
-        <p class="service-desc">Landing page yang dirancang untuk mengkonversi. Setiap elemen dioptimalkan untuk menarik perhatian calon pelanggan dan mendorong aksi.</p>
+        <p class="service-desc">Conversion-focused landing pages where every element is optimized to capture attention and drive meaningful action.</p>
       </div>
       <div class="service-item">
         <span class="service-num">04</span>
         <span class="service-icon">◈</span>
         <h3 class="service-title">Company Profile</h3>
-        <p class="service-desc">Website company profile yang merepresentasikan identitas bisnis Anda secara profesional dan membangun kepercayaan di mata klien.</p>
+        <p class="service-desc">Professional company profile websites that represent your business identity and build credibility in the eyes of clients.</p>
       </div>
       <div class="service-item">
         <span class="service-num">05</span>
         <span class="service-icon">◫</span>
         <h3 class="service-title">Redesign & Revamp</h3>
-        <p class="service-desc">Transformasi website lama menjadi karya modern yang segar. Tingkatkan tampilan, performa, dan konversi website Anda secara signifikan.</p>
+        <p class="service-desc">Transform your outdated website into a fresh, modern product. Elevate your look, performance, and conversions significantly.</p>
       </div>
       <div class="service-item">
         <span class="service-num">06</span>
         <span class="service-icon">◬</span>
         <h3 class="service-title">Responsive Design</h3>
-        <p class="service-desc">Pastikan website Anda tampil sempurna di desktop, tablet, maupun mobile. Experience yang konsisten di semua ukuran layar.</p>
+        <p class="service-desc">Ensure your website looks flawless on desktop, tablet, and mobile. A consistent experience across every screen size.</p>
       </div>
     </div>
   </div>
@@ -880,31 +1177,31 @@
 <!-- PROCESS -->
 <section id="process">
   <div class="section-label reveal">How I Work</div>
-  <h2 class="section-title reveal reveal-delay-1">My <em>process</em> —<br>Simple & transparent.</h2>
+  <h2 class="section-title reveal reveal-delay-1">My <em>process</em> —<br>Simple &amp; transparent.</h2>
   <div class="process-steps">
     <div class="process-step reveal">
       <div class="step-dot"></div>
       <span class="step-num">Step 01</span>
       <h3 class="step-title">Discovery</h3>
-      <p class="step-desc">Memahami bisnis, tujuan, dan target audience Anda. Riset mendalam sebelum satu baris kode pun ditulis.</p>
+      <p class="step-desc">Understanding your business, goals, and target audience. Deep research before a single line of code is written.</p>
     </div>
     <div class="process-step reveal reveal-delay-1">
       <div class="step-dot"></div>
       <span class="step-num">Step 02</span>
       <h3 class="step-title">Design</h3>
-      <p class="step-desc">Membuat konsep visual dan wireframe. Anda akan melihat tampilan website sebelum development dimulai.</p>
+      <p class="step-desc">Creating visual concepts and wireframes. You'll see how the website looks before development even begins.</p>
     </div>
     <div class="process-step reveal reveal-delay-2">
       <div class="step-dot"></div>
       <span class="step-num">Step 03</span>
       <h3 class="step-title">Development</h3>
-      <p class="step-desc">Membangun website dengan kode berkualitas tinggi, responsif, dan teroptimasi untuk kecepatan terbaik.</p>
+      <p class="step-desc">Building the website with high-quality, responsive, and optimized code for the best possible performance.</p>
     </div>
     <div class="process-step reveal reveal-delay-3">
       <div class="step-dot"></div>
       <span class="step-num">Step 04</span>
       <h3 class="step-title">Launch & Support</h3>
-      <p class="step-desc">Deploy website dan pastikan segalanya berjalan sempurna. Dukungan after-launch untuk ketenangan Anda.</p>
+      <p class="step-desc">Deploying the website and making sure everything runs perfectly. After-launch support for your peace of mind.</p>
     </div>
   </div>
 </section>
@@ -914,21 +1211,21 @@
   <div class="contact-left">
     <div class="section-label reveal">Get In Touch</div>
     <h2 class="section-title reveal reveal-delay-1">Let's build something <em>amazing</em> together.</h2>
-    <p class="contact-desc reveal reveal-delay-2">Punya project yang ingin diwujudkan? Atau sekadar ingin tahu lebih lanjut tentang layanan saya? Jangan ragu untuk menghubungi — saya siap membantu bisnis Anda tampil terbaik di dunia digital.</p>
+    <p class="contact-desc reveal reveal-delay-2">Have a project you'd like to bring to life? Or simply want to learn more about my services? Don't hesitate to reach out — I'm ready to help your business shine in the digital world.</p>
     <div class="contact-links reveal reveal-delay-3">
-      <a href="https://wa.me/6289563575467" target="_blank" class="contact-link">
+      <a href="https://wa.me/6208956357546710" target="_blank" class="contact-link">
         <div class="contact-link-icon">📱</div>
         <div class="contact-link-text">
           <div class="contact-link-label">WhatsApp</div>
-          <div class="contact-link-val">+62 895-6357-5467</div>
+          <div class="contact-link-val">+62 895-635-754-671</div>
         </div>
         <span class="contact-link-arrow">→</span>
       </a>
-      <a href="mailto:adityap1498@gmail.com" class="contact-link">
+      <a href="mailto:adityapratama@email.com" class="contact-link">
         <div class="contact-link-icon">✉</div>
         <div class="contact-link-text">
           <div class="contact-link-label">Email</div>
-          <div class="contact-link-val">adityap1498@gmail.com</div>
+          <div class="contact-link-val">adityapratama@email.com</div>
         </div>
         <span class="contact-link-arrow">→</span>
       </a>
@@ -944,22 +1241,22 @@
   </div>
 
   <div class="contact-right reveal reveal-delay-2">
-    <form class="contact-form" onsubmit="handleSubmit(event)">
+    <form class="contact-form" id="contactForm">
       <div class="form-group">
         <label class="form-label">Your Name</label>
-        <input type="text" class="form-input" placeholder="John Doe" required>
+        <input type="text" class="form-input" placeholder="John Doe" required autocomplete="name">
       </div>
       <div class="form-group">
         <label class="form-label">Email Address</label>
-        <input type="email" class="form-input" placeholder="john@email.com" required>
+        <input type="email" class="form-input" placeholder="john@email.com" required autocomplete="email">
       </div>
       <div class="form-group">
         <label class="form-label">Project Type</label>
-        <input type="text" class="form-input" placeholder="Landing Page / Web Design / etc.">
+        <input type="text" class="form-input" placeholder="Landing Page / Web Design / etc." autocomplete="off">
       </div>
       <div class="form-group">
         <label class="form-label">Tell Me About Your Project</label>
-        <textarea class="form-textarea" placeholder="Ceritakan kebutuhan website Anda..."></textarea>
+        <textarea class="form-textarea" placeholder="Describe your project needs..."></textarea>
       </div>
       <button type="submit" class="form-submit" id="submitBtn">
         <span>Send Message</span>
@@ -974,44 +1271,115 @@
   <div class="footer-logo">Aditya<span>.</span></div>
   <p class="footer-copy">© 2025 Aditya Pratama. All rights reserved.</p>
   <div class="footer-links">
-    <a href="https://wa.me/6289563575467" target="_blank">WhatsApp</a>
-    <a href="mailto:adityap1498@gmail.com">Email</a>
+    <a href="https://wa.me/6208956357546710" target="_blank">WhatsApp</a>
+    <a href="mailto:adityapratama@email.com">Email</a>
     <a href="https://instagram.com/adityaa__pratamaa" target="_blank">Instagram</a>
   </div>
 </footer>
 
 <script>
-  // ── CURSOR
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  function animateCursor() {
-    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-    rx += (mx - rx) * .12; ry += (my - ry) * .12;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
+  /* ── DETECT TOUCH / DESKTOP ── */
+  const isTouchDevice = () => window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches;
 
-  // ── NAV SCROLL
+  /* ── CURSOR (desktop only) ── */
+  if (!isTouchDevice()) {
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    cursor.style.display = 'block';
+    ring.style.display = 'block';
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * .12; ry += (my - ry) * .12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    })();
+  }
+
+  /* ── MOBILE MENU ── */
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const ham = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    ham.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const ham = document.getElementById('hamburger');
+    menu.classList.remove('open');
+    ham.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ── NAV SCROLL ── */
   window.addEventListener('scroll', () => {
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
-  });
+  }, { passive: true });
 
-  // ── SCROLL REVEAL
+  /* ── AUTO SLIDESHOW ── */
+  (function initSlideshow() {
+    const slides = document.querySelectorAll('.photo-slide');
+    const progressContainer = document.getElementById('slideProgress');
+    const total = slides.length;
+    let current = 0;
+    let timer;
+
+    // Build progress dots
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+      progressContainer.appendChild(dot);
+    }
+
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      document.querySelectorAll('.slide-dot')[current].classList.remove('active');
+      current = (idx + total) % total;
+      slides[current].classList.add('active');
+      document.querySelectorAll('.slide-dot')[current].classList.add('active');
+    }
+
+    function next() { goTo(current + 1); }
+
+    function startAuto() {
+      clearInterval(timer);
+      timer = setInterval(next, 4500);
+    }
+
+    startAuto();
+
+    // Pause on hover
+    const ss = document.getElementById('photoSlideshow');
+    ss.addEventListener('mouseenter', () => clearInterval(timer));
+    ss.addEventListener('mouseleave', startAuto);
+
+    // Touch swipe
+    let touchStartX = 0;
+    ss.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    ss.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) { goTo(dx < 0 ? current + 1 : current - 1); startAuto(); }
+    }, { passive: true });
+  })();
+
+  /* ── SCROLL REVEAL ── */
   const revealEls = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: .12 });
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
   revealEls.forEach(el => io.observe(el));
 
-  // ── COUNT UP
-  function countUp(el, target, suffix = '') {
-    let start = 0; const dur = 1800;
-    const step = timestamp => {
-      if (!step.startTime) step.startTime = timestamp;
-      const progress = Math.min((timestamp - step.startTime) / dur, 1);
+  /* ── COUNT UP ── */
+  function countUp(el, target, suffix) {
+    let start = 0;
+    const dur = 1800;
+    const step = ts => {
+      if (!step.t) step.t = ts;
+      const progress = Math.min((ts - step.t) / dur, 1);
       const ease = 1 - Math.pow(1 - progress, 3);
       el.textContent = Math.floor(ease * target) + suffix;
       if (progress < 1) requestAnimationFrame(step);
@@ -1029,29 +1397,31 @@
         statsIo.disconnect();
       }
     });
-  }, { threshold: .5 });
+  }, { threshold: .4 });
   const statsEl = document.querySelector('.hero-stats');
   if (statsEl) statsIo.observe(statsEl);
 
-  // ── FORM SUBMIT
-  function handleSubmit(e) {
+  /* ── FORM SUBMIT ── */
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
     btn.innerHTML = '<span>Sending...</span>';
+    btn.disabled = true;
     setTimeout(() => {
       btn.innerHTML = '<span>✓ Message Sent!</span>';
-      btn.style.background = 'var(--gold)'; btn.style.color = 'var(--bg)';
+      btn.style.background = 'var(--gold)';
+      btn.style.color = 'var(--bg)';
+      btn.style.borderColor = 'var(--gold)';
       setTimeout(() => {
         btn.innerHTML = '<span>Send Message</span><span>→</span>';
-        btn.style.background = ''; btn.style.color = '';
-        e.target.reset();
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+        btn.disabled = false;
+        this.reset();
       }, 3000);
     }, 1500);
-  }
-
-  // ── HIDE CURSOR ON LEAVE
-  document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; ring.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { cursor.style.opacity = '1'; ring.style.opacity = '1'; });
+  });
 </script>
 </body>
 </html>
