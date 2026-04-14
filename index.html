@@ -290,14 +290,12 @@
 
   .photo-slide img {
     width: 100%; height: 100%;
-    object-fit: contain; object-position: top;
+    object-fit: cover; object-position: top;
     filter: grayscale(20%) contrast(1.05);
     display: block;
   }
 
-  /* .photo-slide.active img {
-  animation: kenBurns 8s ease-in-out forwards;
-} */
+  
   @keyframes kenBurns {
     from { transform: scale(1) translate(0,0); }
     to   { transform: scale(1.06) translate(-1%, 1%); }
