@@ -510,9 +510,9 @@
     border-color: rgba(201,168,76,.4);
     box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(201,168,76,.15);
   }
-  .project-card:first-child, .project-card:nth-child(4), .project-card:nth-child(8) {
-    grid-column: span 2;
-  }
+  .project-card.large {
+  grid-column: span 2;
+}
 
   .project-preview {
     width: 100%; aspect-ratio: 16/9;
@@ -1000,7 +1000,7 @@
   <div class="projects-grid">
 
     <!-- 1 -->
-    <div class="project-card reveal">
+    <div class="project-card large reveal">
       <div class="project-preview">
         <div class="preview-num">01 / 06</div>
         <iframe src="https://tokometerial.vercel.app/" loading="lazy" title="Toko Material"></iframe>
