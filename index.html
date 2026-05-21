@@ -301,7 +301,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: top center; /* Mengubah fokus ke bagian atas agar wajah/kepala selalu terlihat */
 }
   .photo-slide.active img {
     animation: none;
@@ -791,10 +791,9 @@
     }
     .photo-frame {
       width: 100%;
-      max-width: 100%;
-      height: 56vw;
-      min-height: 220px;
-      max-height: 320px;
+      max-width: 280px; /* Mengecilkan batas lebar agar tidak terlalu besar di HP */
+      height: 280px;    /* Tinggi disamakan dengan lebar agar bentuknya kotak pas */
+      margin: 0 auto;   /* Memastikan bingkai berada pas di tengah layar */
     }
     .photo-frame::before { display: none; }
     .photo-dots-deco { display: none; }
