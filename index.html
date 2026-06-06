@@ -8,6 +8,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  /* ================================================================
+     PORTOFOLIO ADITYA PRATAMA — index.html
+     Versi: 2.0 | Single-file HTML portfolio
+     Hosting: Vercel (adityaweb.my.id)
+     ================================================================
+     STRUKTUR FILE:
+     1. CSS Variables & Reset
+     2. Navigation (Desktop + Mobile)
+     3. Hero Section
+     4. Marquee Banner
+     5. About Section
+     6. Projects Section (carousel mobile, grid desktop)
+     7. Services Section
+     8. Process Section
+     9. Contact Section + WhatsApp Form
+     10. Footer
+     11. JavaScript (Menu, Slideshow, Carousel Dots, Scroll Reveal,
+                     Count Up, WhatsApp Form Handler)
+     ================================================================ */
+
+  /* ── WARNA & VARIABEL GLOBAL ──
+     Ubah warna tema di sini. --gold adalah aksen utama (emas).
+     --bg = background utama, --bg2 = background sekunder (sedikit lebih terang)
+     --text = warna teks utama, --muted = teks abu-abu/redup
+     --border = garis pembatas tipis, --surface = background kartu transparan */
   :root {
     --bg:      #060608;
     --bg2:     #0b0b10;
@@ -55,7 +80,10 @@
     z-index: 9990;
   }
 
-  /* ── NAV ── */
+  /* ── NAV ──
+     Navbar fixed di atas. Saat di-scroll, class "scrolled" ditambahkan via JS
+     yang membuat background blur dan border muncul.
+     Di mobile (<768px): nav-links disembunyikan, hamburger muncul. */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 500;
     display: flex; align-items: center; justify-content: space-between;
@@ -124,7 +152,12 @@
     width: 40px; height: 1px; background: var(--border);
   }
 
-  /* ─────────────── HERO ─────────────── */
+  /* ─────────────── HERO ───────────────
+     Layout 2 kolom (teks kiri, foto kanan).
+     Di mobile jadi 1 kolom, foto di atas teks.
+     Foto menggunakan slideshow otomatis setiap 4.8 detik.
+     Untuk ganti foto: ubah src di div.photo-slide img
+     Untuk tambah foto: duplikat div.photo-slide dan ubah src-nya */
   #hero {
     min-height: 100vh;
     min-height: 100dvh;
@@ -344,7 +377,10 @@
   }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  /* ── MARQUEE ── */
+  /* ── MARQUEE ──
+     Banner teks berjalan otomatis. Untuk ubah kecepatan animasi:
+     ganti "22s" di @keyframes marquee menjadi lebih kecil = lebih cepat.
+     Untuk tambah/kurangi item: edit div.marquee-item di HTML */
   .marquee-section {
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
@@ -448,7 +484,12 @@
   .skill-chip:hover { border-color: rgba(201,168,76,.3); color: var(--text); background: var(--gold-glow); }
   .skill-chip::before { content: '→'; color: var(--gold); font-size: .75rem; flex-shrink: 0; }
 
-  /* ── PROJECTS ── */
+  /* ── PROJECTS ──
+     Desktop: grid 3 kolom. Card dengan class "wide" melebar 2 kolom.
+     Mobile: berubah jadi horizontal scroll carousel (flex row + overflow-x).
+     Untuk tambah project: duplikat div.project-card, ganti isi kontennya.
+     Untuk ubah urutan: geser posisi div.project-card di HTML.
+     Class "featured" menampilkan badge "Featured ✦" di pojok kiri atas. */
   #projects { background: var(--bg2); padding-left: 0; padding-right: 0; padding-bottom: 100px; }
   .projects-header {
     display: flex; align-items: flex-end; justify-content: space-between;
@@ -601,7 +642,10 @@
   }
   .project-dot-item.active { background: var(--gold); transform: scale(1.4); }
 
-  /* ── SERVICES ── */
+  /* ── SERVICES ──
+     Grid 3 kolom di desktop, 2 kolom di tablet, 1 kolom di mobile.
+     Untuk tambah layanan: duplikat div.service-item dan ubah isinya.
+     Untuk ubah jumlah kolom desktop: ganti "repeat(3, 1fr)" di .services-grid */
   #services { position: relative; overflow: hidden; }
   .services-bg {
     position: absolute; inset: 0;
@@ -665,7 +709,11 @@
   .step-title { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 9px; }
   .step-desc { font-size: .8rem; color: var(--muted); line-height: 1.65; }
 
-  /* ── CONTACT ── */
+  /* ── CONTACT ──
+     Layout 2 kolom: kiri info kontak, kanan form.
+     Form submit akan membuka WhatsApp otomatis dengan pesan terformat.
+     Untuk ganti nomor WA: cari "wa.me/62895635754671" dan ubah nomornya.
+     Di mobile jadi 1 kolom, form di bawah info kontak. */
   #contact { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: start; }
   .contact-left .section-title { font-size: clamp(1.8rem, 3.2vw, 2.8rem); }
   .contact-desc { font-size: .88rem; color: var(--muted); line-height: 1.82; margin-bottom: 44px; }
@@ -754,7 +802,8 @@
   ::-webkit-scrollbar-thumb { background: rgba(201,168,76,.5); }
   ::selection { background: rgba(201,168,76,.25); color: var(--text); }
 
-  /* ── RESPONSIVE — TABLET ── */
+  /* ── RESPONSIVE — TABLET ──
+     Breakpoint 1100px ke bawah. Hero jadi 1 kolom, projects jadi 2 kolom. */
   @media (max-width: 1100px) {
     #hero { grid-template-columns: 1fr; padding: 110px 40px 70px; gap: 48px; }
     .hero-right { justify-content: flex-start; }
@@ -767,7 +816,10 @@
     .projects-header { padding: 0 40px; }
   }
 
-  /* ── RESPONSIVE — MOBILE ── */
+  /* ── RESPONSIVE — MOBILE ──
+     Breakpoint 768px ke bawah. Semua section padding dikecilkan.
+     Projects berubah jadi horizontal carousel. Nav jadi hamburger menu.
+     Card width = 76vw agar ada peek card berikutnya di kanan. */
   @media (max-width: 768px) {
     nav { padding: 16px 20px; }
     nav.scrolled { padding: 12px 20px; }
@@ -894,7 +946,10 @@
 
 <div class="top-accent"></div>
 
-<!-- Mobile Menu -->
+<!-- ══════════════════════════════════════════════════
+     MOBILE MENU — Full screen overlay saat hamburger diklik
+     Tambah/kurangi link di sini untuk item menu mobile
+     ══════════════════════════════════════════════════ -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#about" onclick="closeMobileMenu()">About</a>
   <a href="#projects" onclick="closeMobileMenu()">Projects</a>
@@ -919,7 +974,12 @@
   </button>
 </nav>
 
-<!-- ══════════════ HERO ══════════════ -->
+<!-- ══════════════════════════════════════════════════
+     HERO SECTION
+     - Ubah nama, role, dan deskripsi di .hero-left
+     - Ganti foto di picture/ap1.png (atau tambah slide baru)
+     - Angka stats: cari data-count="..." dan ubah nilainya
+     ══════════════════════════════════════════════════ -->
 <section id="hero">
   <div class="hero-bg-grid"></div>
   <div class="hero-glow"></div>
@@ -953,7 +1013,7 @@
 
     <div class="hero-stats">
       <div>
-        <div class="stat-num" data-count="11">0</div>
+        <div class="stat-num" data-count="12">0</div>
         <div class="stat-label">Projects Done</div>
       </div>
       <div>
@@ -1004,7 +1064,12 @@
   </div>
 </div>
 
-<!-- ══════════════ ABOUT ══════════════ -->
+<!-- ══════════════════════════════════════════════════
+     ABOUT SECTION
+     - Ubah teks filosofi di div.philosophy-item
+     - Update profile card: nama, role, lokasi, status
+     - Tambah/kurangi skill di div.skills-grid
+     ══════════════════════════════════════════════════ -->
 <section id="about">
   <div class="about-bg-num">ADITYA</div>
   <div class="about-inner">
@@ -1077,7 +1142,19 @@
   </div>
 </section>
 
-<!-- ══════════════ PROJECTS ══════════════ -->
+<!-- ══════════════════════════════════════════════════
+     PROJECTS SECTION
+     CARA TAMBAH PROJECT BARU:
+     1. Duplikat salah satu div.project-card
+     2. Ganti preview-num (contoh: "13 / 13")
+     3. Ganti src gambar → tambahkan file ke picture/project/
+     4. Ubah nama, deskripsi, tags, dan link
+     5. Update total di semua preview-num dan data-count di hero stats
+
+     Class tambahan pada project-card:
+     - "wide"     → card melebar 2 kolom (desktop)
+     - "featured" → tampilkan badge "Featured ✦"
+     ══════════════════════════════════════════════════ -->
 <section id="projects">
   <div class="projects-header">
     <div>
@@ -1095,7 +1172,7 @@
     <div class="project-card wide featured reveal">
       <div class="project-featured-badge">Featured ✦</div>
       <div class="project-preview">
-        <div class="preview-num">01 / 11</div>
+        <div class="preview-num">01 / 12</div>
         <img class="preview-img" src="picture/project/lashboss.png" alt="LashBoss">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◉</div>
@@ -1119,7 +1196,7 @@
     <!-- 02 — Toko Material -->
     <div class="project-card reveal reveal-delay-1">
       <div class="project-preview">
-        <div class="preview-num">02 / 11</div>
+        <div class="preview-num">02 / 12</div>
         <img class="preview-img" src="picture/project/tokomaterial.png" alt="Toko Material">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◈</div>
@@ -1143,7 +1220,7 @@
     <!-- 03 — Showroom BYD -->
     <div class="project-card reveal">
       <div class="project-preview">
-        <div class="preview-num">03 / 11</div>
+        <div class="preview-num">03 / 12</div>
         <img class="preview-img" src="picture/project/showroombyd.png" alt="Showroom BYD">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◉</div>
@@ -1167,7 +1244,7 @@
     <!-- 04 — Klinik Hukum -->
     <div class="project-card reveal reveal-delay-1">
       <div class="project-preview">
-        <div class="preview-num">04 / 11</div>
+        <div class="preview-num">04 / 12</div>
         <img class="preview-img" src="picture/project/klinikhukum.png" alt="Klinik Hukum">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◇</div>
@@ -1191,7 +1268,7 @@
     <!-- 05 — Apply MNC Bank -->
     <div class="project-card reveal reveal-delay-2">
       <div class="project-preview">
-        <div class="preview-num">05 / 11</div>
+        <div class="preview-num">05 / 12</div>
         <img class="preview-img" src="picture/project/applymncbank.png" alt="Apply MNC Bank">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◈</div>
@@ -1215,7 +1292,7 @@
     <!-- 06 — Luxe Wood Furniture -->
     <div class="project-card reveal">
       <div class="project-preview">
-        <div class="preview-num">06 / 11</div>
+        <div class="preview-num">06 / 12</div>
         <img class="preview-img" src="picture/project/luxewood.png" alt="Luxe Wood Furniture">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◫</div>
@@ -1239,7 +1316,7 @@
     <!-- 07 — Sentra Otomotif -->
     <div class="project-card reveal reveal-delay-1">
       <div class="project-preview">
-        <div class="preview-num">07 / 11</div>
+        <div class="preview-num">07 / 12</div>
         <img class="preview-img" src="picture/project/sentraotomotif.png" alt="Sentra Otomotif">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◬</div>
@@ -1263,7 +1340,7 @@
     <!-- 08 — Pusat AKI -->
     <div class="project-card reveal reveal-delay-2">
       <div class="project-preview">
-        <div class="preview-num">08 / 11</div>
+        <div class="preview-num">08 / 12</div>
         <img class="preview-img" src="picture/project/pusataki.png" alt="Pusat AKI">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◉</div>
@@ -1287,7 +1364,7 @@
     <!-- 09 — Bengkel Mobil -->
     <div class="project-card reveal">
       <div class="project-preview">
-        <div class="preview-num">09 / 11</div>
+        <div class="preview-num">09 / 12</div>
         <img class="preview-img" src="picture/project/bengkelmobil.png" alt="Bengkel Mobil">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◈</div>
@@ -1311,7 +1388,7 @@
     <!-- 10 — Barbershop (wide) -->
     <div class="project-card wide reveal reveal-delay-1">
       <div class="project-preview">
-        <div class="preview-num">10 / 11</div>
+        <div class="preview-num">10 / 12</div>
         <img class="preview-img" src="picture/project/barbershop.png" alt="Barbershop">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◇</div>
@@ -1335,7 +1412,7 @@
     <!-- 11 — ColorCraft -->
     <div class="project-card reveal reveal-delay-2">
       <div class="project-preview">
-        <div class="preview-num">11 / 11</div>
+        <div class="preview-num">11 / 12</div>
         <img class="preview-img" src="picture/project/tokocat.png" alt="ColorCraft">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◈</div>
@@ -1356,10 +1433,41 @@
       </div>
     </div>
 
+    <!-- 12 — WASG Aesthetic Clinic -->
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-preview">
+        <div class="preview-num">12 / 12</div>
+        <img class="preview-img" src="picture/project/wasgclinic.png" alt="WASG Aesthetic Clinic">
+        <div class="preview-fallback">
+          <div class="preview-fallback-icon">◇</div>
+          <div class="preview-fallback-url">wasgclinic.vercel.app</div>
+          <div class="preview-fallback-hint">Aesthetic Clinic Website</div>
+        </div>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="project-info">
+        <h3 class="project-name">WASG Aesthetic Clinic</h3>
+        <p class="project-desc">Premium aesthetic clinic website with dark rose-gold theme, glassmorphism hero, full service catalog, and WhatsApp booking integration.</p>
+        <div class="project-tags">
+          <span class="tag">Clinic</span>
+          <span class="tag">Beauty</span>
+          <span class="tag">Premium</span>
+        </div>
+        <a href="https://wasgclinic.vercel.app/" target="_blank" class="project-link">Visit Live Site</a>
+      </div>
+    </div>
+
   </div>
 
   <div class="project-dots" id="projectDots"></div>
 </section>
+
+<!-- ══════════════════════════════════════════════════
+     SERVICES SECTION
+     Untuk tambah layanan: duplikat div.service-item
+     Untuk ubah icon: ganti karakter unicode di span.service-icon
+     ══════════════════════════════════════════════════ -->
+<section id="services">
   <div class="services-bg"></div>
   <div style="position:relative;z-index:2;">
     <div class="section-label reveal">What I Offer</div>
@@ -1437,7 +1545,12 @@
   </div>
 </section>
 
-<!-- ══════════════ CONTACT ══════════════ -->
+<!-- ══════════════════════════════════════════════════
+     CONTACT SECTION
+     - Ubah nomor WA: cari "wa.me/62895635754671"
+     - Ubah email: cari "adityap1498@gmail.com"
+     - Form submit otomatis buka WhatsApp (lihat JS di bawah)
+     ══════════════════════════════════════════════════ -->
 <section id="contact">
   <div class="contact-left">
     <div class="section-label reveal">Get In Touch</div>
@@ -1498,7 +1611,9 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ══════════════════════════════════════════════════
+     FOOTER — Update tahun copyright jika perlu
+     ══════════════════════════════════════════════════ -->
 <footer>
   <div class="footer-logo">Aditya<span>.</span></div>
   <p class="footer-copy">© 2025 Aditya Pratama. All rights reserved.</p>
@@ -1510,7 +1625,13 @@
 </footer>
 
 <script>
-/* ── DISABLE RIGHT CLICK & DEVTOOLS ── */
+/* ================================================================
+   JAVASCRIPT — PORTOFOLIO ADITYA PRATAMA
+   ================================================================ */
+
+/* ── DISABLE RIGHT CLICK & DEVTOOLS ──
+   Mencegah klik kanan, F12, dan Ctrl+U untuk proteksi kode.
+   Hapus bagian ini jika tidak diperlukan. */
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
   if (e.key === 'F12') { e.preventDefault(); return false; }
@@ -1524,7 +1645,10 @@ document.addEventListener('selectstart', e => {
 });
 document.addEventListener('dragstart', e => e.preventDefault());
 
-/* ── MOBILE MENU ── */
+/* ── MOBILE MENU ──
+   toggleMenu() dipanggil saat tombol hamburger diklik.
+   closeMobileMenu() dipanggil saat link menu diklik (agar menu menutup otomatis).
+   Saat menu terbuka, body.overflow = hidden agar halaman tidak bisa di-scroll. */
 function toggleMenu() {
   const menu = document.getElementById('mobileMenu');
   const ham  = document.getElementById('hamburger');
@@ -1540,12 +1664,18 @@ function closeMobileMenu() {
   document.body.style.overflow = '';
 }
 
-/* ── NAV SCROLL ── */
+/* ── NAV SCROLL ──
+   Menambahkan class "scrolled" ke navbar saat halaman di-scroll >50px.
+   Class ini mengaktifkan backdrop blur dan border bawah navbar. */
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
 }, { passive: true });
 
-/* ── HERO SLIDESHOW ── */
+/* ── HERO SLIDESHOW ──
+   Slideshow otomatis untuk foto hero. Interval: 4800ms (4.8 detik).
+   Untuk ubah kecepatan: ganti angka 4800 di setInterval.
+   Mendukung swipe/touch di mobile dan pause saat hover di desktop.
+   Dot indikator dibuat otomatis sesuai jumlah div.photo-slide. */
 (function initSlideshow() {
   const slides = document.querySelectorAll('.photo-slide');
   const progressContainer = document.getElementById('slideProgress');
@@ -1582,7 +1712,10 @@ window.addEventListener('scroll', () => {
   }
 })();
 
-/* ── PROJECT IMAGE FALLBACK ── */
+/* ── PROJECT IMAGE FALLBACK ──
+   Jika gambar thumbnail project gagal load (file tidak ada),
+   maka fallback div akan tampil dengan URL dan nama project.
+   Pastikan file gambar ada di folder picture/project/ dengan nama yang benar. */
 document.querySelectorAll('.project-preview').forEach(preview => {
   const img = preview.querySelector('.preview-img');
   const fallback = preview.querySelector('.preview-fallback');
@@ -1606,7 +1739,10 @@ document.querySelectorAll('.project-preview').forEach(preview => {
   }
 });
 
-/* ── PROJECT CAROUSEL DOTS (mobile) ── */
+/* ── PROJECT CAROUSEL DOTS (mobile) ──
+   Membuat dot indikator di bawah carousel project secara otomatis.
+   Jumlah dot = jumlah project card. Dot aktif mengikuti posisi scroll.
+   Klik dot = scroll ke card tersebut. Hanya tampil di mobile. */
 (function initProjectDots() {
   const grid = document.getElementById('projectsGrid');
   const dotsContainer = document.getElementById('projectDots');
@@ -1638,7 +1774,10 @@ document.querySelectorAll('.project-preview').forEach(preview => {
   }, { passive: true });
 })();
 
-/* ── SCROLL REVEAL ── */
+/* ── SCROLL REVEAL ──
+   Elemen dengan class "reveal" akan muncul dengan animasi fade+slide
+   saat masuk viewport. Gunakan class tambahan untuk delay:
+   reveal-delay-1 (0.1s), reveal-delay-2 (0.2s), dst. */
 const revealEls = document.querySelectorAll('.reveal');
 const revealIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -1647,7 +1786,10 @@ const revealIO = new IntersectionObserver(entries => {
 }, { threshold: .06, rootMargin: '0px 0px -36px 0px' });
 revealEls.forEach(el => revealIO.observe(el));
 
-/* ── COUNT UP ── */
+/* ── COUNT UP ──
+   Animasi angka naik di hero stats (Projects Done, Years, Satisfaction).
+   Untuk ubah nilai: cari data-count="12" di HTML dan ganti angkanya.
+   Angka dengan nilai 100 akan otomatis diberi suffix "%" bukan "+". */
 function countUp(el, target, suffix) {
   let start = 0;
   const dur = 1800;
@@ -1676,7 +1818,10 @@ if (statsEl) {
   statsIO.observe(statsEl);
 }
 
-/* ── FORM → WHATSAPP ── */
+/* ── FORM → WHATSAPP ──
+   Saat form di-submit, data diformat jadi pesan WhatsApp dan membuka
+   wa.me/[nomor] di tab baru. Tidak ada backend/database.
+   Untuk ubah nomor WA tujuan: ganti "62895635754671" di baris window.open. */
 document.getElementById('contactForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const nama    = (this.querySelector('[name="nama"]').value || '').trim();
