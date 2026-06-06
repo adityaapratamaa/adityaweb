@@ -388,7 +388,6 @@
     font-family: 'Syne', sans-serif; font-size: clamp(140px, 22vw, 280px);
     font-weight: 800; color: transparent;
     -webkit-text-stroke: 1px rgba(201,168,76,.05);
-    text-stroke: 1px rgba(201,168,76,.05);
     pointer-events: none; user-select: none; white-space: nowrap; line-height: 1;
   }
   .about-inner {
@@ -706,7 +705,7 @@
     color: var(--text); padding: 13px 16px;
     font-family: 'DM Sans', sans-serif; font-size: .86rem;
     outline: none; transition: border-color .25s, background .25s;
-    resize: none; -webkit-appearance: none; border-radius: 0; width: 100%;
+    resize: none; -webkit-appearance: none; appearance: none; border-radius: 0; width: 100%;
   }
   .form-input:focus, .form-textarea:focus {
     border-color: rgba(201,168,76,.5);
@@ -840,7 +839,7 @@
     .projects-grid::-webkit-scrollbar { display: none; }
 
     .project-card {
-      flex: 0 0 80vw;
+      flex: 0 0 76vw;
       min-width: 0;
       scroll-snap-align: start;
       transform: none !important;
@@ -848,7 +847,7 @@
       transition: border-color .3s !important;
     }
     .project-card:active { border-color: rgba(201,168,76,.3) !important; }
-    .project-card.wide { grid-column: unset !important; flex: 0 0 80vw; }
+    .project-card.wide { grid-column: unset !important; flex: 0 0 76vw; }
 
     .project-preview { aspect-ratio: 4/3; }
     .project-info { padding: 16px; }
@@ -875,7 +874,7 @@
 
   @media (max-width: 420px) {
     .hero-name { font-size: 2.3rem; }
-    .project-card { flex: 0 0 86vw; }
+    .project-card { flex: 0 0 82vw; }
     .hero-stats { gap: 14px; }
     .process-steps { grid-template-columns: 1fr; }
     .hero-btns { flex-direction: column; }
@@ -954,7 +953,7 @@
 
     <div class="hero-stats">
       <div>
-        <div class="stat-num" data-count="10">0</div>
+        <div class="stat-num" data-count="11">0</div>
         <div class="stat-label">Projects Done</div>
       </div>
       <div>
@@ -1092,11 +1091,35 @@
 
   <div class="projects-grid" id="projectsGrid">
 
-    <!-- 01 — Toko Material (wide, featured) -->
+    <!-- 01 — LashBoss (wide, featured) -->
     <div class="project-card wide featured reveal">
       <div class="project-featured-badge">Featured ✦</div>
       <div class="project-preview">
-        <div class="preview-num">01 / 10</div>
+        <div class="preview-num">01 / 11</div>
+        <img class="preview-img" src="picture/project/lashboss.png" alt="LashBoss">
+        <div class="preview-fallback">
+          <div class="preview-fallback-icon">◉</div>
+          <div class="preview-fallback-url">lashboss.vercel.app</div>
+          <div class="preview-fallback-hint">Beauty Brand Landing Page</div>
+        </div>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="project-info">
+        <h3 class="project-name">LashBoss</h3>
+        <p class="project-desc">Premium eyelash & eyebrow serum brand landing page with elegant pink aesthetic, product showcase, before/after carousel, and Shopee-optimized conversion flow.</p>
+        <div class="project-tags">
+          <span class="tag">Beauty</span>
+          <span class="tag">E-Commerce</span>
+          <span class="tag">Landing Page</span>
+        </div>
+        <a href="https://lashboss.vercel.app/" target="_blank" class="project-link">Visit Live Site</a>
+      </div>
+    </div>
+
+    <!-- 02 — Toko Material -->
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-preview">
+        <div class="preview-num">02 / 11</div>
         <img class="preview-img" src="picture/project/tokomaterial.png" alt="Toko Material">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◈</div>
@@ -1117,10 +1140,10 @@
       </div>
     </div>
 
-    <!-- 02 — Showroom BYD -->
-    <div class="project-card reveal reveal-delay-1">
+    <!-- 03 — Showroom BYD -->
+    <div class="project-card reveal">
       <div class="project-preview">
-        <div class="preview-num">02 / 10</div>
+        <div class="preview-num">03 / 11</div>
         <img class="preview-img" src="picture/project/showroombyd.png" alt="Showroom BYD">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◉</div>
@@ -1141,10 +1164,10 @@
       </div>
     </div>
 
-    <!-- 03 — Klinik Hukum -->
-    <div class="project-card reveal">
+    <!-- 04 — Klinik Hukum -->
+    <div class="project-card reveal reveal-delay-1">
       <div class="project-preview">
-        <div class="preview-num">03 / 10</div>
+        <div class="preview-num">04 / 11</div>
         <img class="preview-img" src="picture/project/klinikhukum.png" alt="Klinik Hukum">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◇</div>
@@ -1165,10 +1188,10 @@
       </div>
     </div>
 
-    <!-- 04 — Apply MNC Bank -->
-    <div class="project-card reveal reveal-delay-1">
+    <!-- 05 — Apply MNC Bank -->
+    <div class="project-card reveal reveal-delay-2">
       <div class="project-preview">
-        <div class="preview-num">04 / 10</div>
+        <div class="preview-num">05 / 11</div>
         <img class="preview-img" src="picture/project/applymncbank.png" alt="Apply MNC Bank">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◈</div>
@@ -1189,10 +1212,10 @@
       </div>
     </div>
 
-    <!-- 05 — Luxe Wood Furniture -->
-    <div class="project-card reveal reveal-delay-2">
+    <!-- 06 — Luxe Wood Furniture -->
+    <div class="project-card reveal">
       <div class="project-preview">
-        <div class="preview-num">05 / 10</div>
+        <div class="preview-num">06 / 11</div>
         <img class="preview-img" src="picture/project/luxewood.png" alt="Luxe Wood Furniture">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◫</div>
@@ -1213,10 +1236,10 @@
       </div>
     </div>
 
-    <!-- 06 — Sentra Otomotif -->
-    <div class="project-card reveal">
+    <!-- 07 — Sentra Otomotif -->
+    <div class="project-card reveal reveal-delay-1">
       <div class="project-preview">
-        <div class="preview-num">06 / 10</div>
+        <div class="preview-num">07 / 11</div>
         <img class="preview-img" src="picture/project/sentraotomotif.png" alt="Sentra Otomotif">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◬</div>
@@ -1237,10 +1260,10 @@
       </div>
     </div>
 
-    <!-- 07 — Pusat AKI -->
-    <div class="project-card reveal reveal-delay-1">
+    <!-- 08 — Pusat AKI -->
+    <div class="project-card reveal reveal-delay-2">
       <div class="project-preview">
-        <div class="preview-num">07 / 10</div>
+        <div class="preview-num">08 / 11</div>
         <img class="preview-img" src="picture/project/pusataki.png" alt="Pusat AKI">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◉</div>
@@ -1261,10 +1284,10 @@
       </div>
     </div>
 
-    <!-- 08 — Bengkel Mobil -->
-    <div class="project-card reveal reveal-delay-2">
+    <!-- 09 — Bengkel Mobil -->
+    <div class="project-card reveal">
       <div class="project-preview">
-        <div class="preview-num">08 / 10</div>
+        <div class="preview-num">09 / 11</div>
         <img class="preview-img" src="picture/project/bengkelmobil.png" alt="Bengkel Mobil">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◈</div>
@@ -1285,10 +1308,10 @@
       </div>
     </div>
 
-    <!-- 09 — Barbershop (wide) -->
-    <div class="project-card wide reveal">
+    <!-- 10 — Barbershop (wide) -->
+    <div class="project-card wide reveal reveal-delay-1">
       <div class="project-preview">
-        <div class="preview-num">09 / 10</div>
+        <div class="preview-num">10 / 11</div>
         <img class="preview-img" src="picture/project/barbershop.png" alt="Barbershop">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◇</div>
@@ -1309,10 +1332,10 @@
       </div>
     </div>
 
-    <!-- 10 — ColorCraft -->
-    <div class="project-card reveal reveal-delay-1">
+    <!-- 11 — ColorCraft -->
+    <div class="project-card reveal reveal-delay-2">
       <div class="project-preview">
-        <div class="preview-num">10 / 10</div>
+        <div class="preview-num">11 / 11</div>
         <img class="preview-img" src="picture/project/tokocat.png" alt="ColorCraft">
         <div class="preview-fallback">
           <div class="preview-fallback-icon">◈</div>
@@ -1337,9 +1360,6 @@
 
   <div class="project-dots" id="projectDots"></div>
 </section>
-
-<!-- ══════════════ SERVICES ══════════════ -->
-<section id="services">
   <div class="services-bg"></div>
   <div style="position:relative;z-index:2;">
     <div class="section-label reveal">What I Offer</div>
